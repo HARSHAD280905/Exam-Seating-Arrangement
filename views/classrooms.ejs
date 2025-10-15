@@ -1,0 +1,90 @@
+<div class="container">
+    <div class="page-header">
+        <h1><i class="fas fa-door-open"></i> Classroom Management</h1>
+        <div class="actions">
+            <button class="btn btn-primary" onclick="toggleAddForm()">
+                <i class="fas fa-plus"></i> Add Classroom
+            </button>
+            <button class="btn btn-success" onclick="toggleUploadForm()">
+                <i class="fas fa-file-excel"></i> Import Excel
+            </button>
+            <form action="/delete-all-classrooms" method="POST" onsubmit="return confirm('Are you sure you want to delete all students?');">
+                 <button type="submit">Delete All Classrooms</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Classroom Form -->
+    <div id="addClassroomForm" class="form-container" style="display: none;">
+        <h3>Add New Classroom</h3>
+        <form action="/add-classroom" method="POST">
+            <div class="form-group">
+                <label for="name">Classroom Name:</label>
+                <input type="text" id="name" name="name" placeholder="e.g., Room A-101" required>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="rows">Rows:</label>
+                    <input type="number" id="rows" name="rows" min="1" max="20" required>
+                </div>
+                <div class="form-group">
+                    <label for="columns">Columns:</label>
+                    <input type="number" id="columns" name="columns" min="1" max="20" required>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Add Classroom</button>
+                <button type="button" class="btn btn-secondary" onclick="toggleAddForm()">Cancel</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Excel Upload Form -->
+    <div id="uploadForm" class="form-container" style="display: none;">
+        <h3>Import Classrooms from Excel</h3>
+        <form action="/upload-classrooms" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="excelFile">Choose Excel File:</label>
+                <input type="file" id="excelFile" name="excelFile" accept=".xls,.xlsx" required>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-success">Upload</button>
+                <button type="button" class="btn btn-secondary" onclick="toggleUploadForm()">Cancel</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Classrooms List -->
+    <div class="classrooms-grid">
+        <% classrooms.forEach(classroom => { %>
+        <div class="classroom-card">
+            <div class="classroom-header">
+                <h3><%= classroom.name %></h3>
+                <span class="capacity-badge"><%= classroom.capacity %> seats</span>
+            </div>
+            <div class="classroom-details">
+                <p><i class="fas fa-th"></i> <%= classroom.rows %> × <%= classroom.columns %></p>
+                <p><i class="fas fa-calendar"></i> Added: <%= new Date(classroom.created_at).toLocaleDateString() %></p>
+            </div>
+            <div class="classroom-actions">
+                <form action="/delete-classroom/<%= classroom.id %>" method="POST" onsubmit="return confirm('Are you sure you want to delete this classroom?');">
+                    <button type="submit" class="btn btn-danger btn-sm">
+                        <i class="fas fa-trash"></i> Delete
+                    </button>
+                </form>
+            </div>
+        </div>
+        <% }) %>
+    </div>
+</div>
+
+<script>
+    function toggleAddForm() {
+        const form = document.getElementById("addClassroomForm");
+        form.style.display = form.style.display === "none" ? "block" : "none";
+    }
+    function toggleUploadForm() {
+        const form = document.getElementById("uploadForm");
+        form.style.display = form.style.display === "none" ? "block" : "none";
+    }
+</script>

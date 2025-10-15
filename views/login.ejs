@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Login - Exam Seating</title>
+    <link rel="stylesheet" href="/css/login.css" />
+  </head>
+  <body>
+    <main class="main-content" style="max-width: 480px; margin: 2rem auto;">
+      <h1>Login</h1>
+      <% if (typeof error !== 'undefined' && error) { %>
+        <div class="alert alert-danger" style="color:#b91c1c; margin:.5rem 0;"><%= error %></div>
+      <% } %>
+      <form method="POST" action="/login" class="form" style="display:flex; flex-direction:column; gap: 12px;">
+        <label>
+          <span>Email</span>
+          <input type="email" name="email" required class="input" />
+        </label>
+        <label>
+          <span>Password</span>
+          <input type="password" name="password" required class="input" />
+        </label>
+        <button type="submit" class="btn">Login</button>
+      </form>
+      <p style="margin-top:1rem;">No account? <a href="/register">Register</a></p>
+    </main>
+  </body>
+</html>

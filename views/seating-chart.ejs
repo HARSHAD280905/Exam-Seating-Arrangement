@@ -1,0 +1,83 @@
+<%
+  // Robust fallbacks so the template doesn't crash if field names differ
+  var rows = (classroom && (classroom.rows_count || classroom.rows)) || 0;
+  var cols = (classroom && (classroom.cols_count || classroom.columns)) || 0;
+  var capacity = classroom && classroom.capacity ? classroom.capacity : (rows * cols);
+%>
+
+
+<div class="container">
+  <div class="page-header">
+    <h1><i class="fas fa-th"></i> Seating Chart - <%= classroom.name %></h1>
+    <div class="chart-actions">
+      <% if (typeof isView === "undefined" || !isView) { %>
+        <button class="btn btn-success" onclick="printChart()">
+          <i class="fas fa-print"></i> Print Chart
+        </button>
+      <% } %>
+      <a href="/arrangements" class="btn btn-secondary">
+        <i class="fas fa-list"></i> View All Arrangements
+      </a>
+    </div>
+  </div>
+
+  <!-- Seating Info -->
+  <div class="seating-info">
+    <div class="info-grid">
+      <div class="info-item"><strong>Classroom:</strong> <%= classroom.name %></div>
+      <div class="info-item"><strong>Dimensions:</strong> <%= rows %> × <%= cols %></div>
+      <div class="info-item"><strong>Capacity:</strong> <%= capacity %> seats</div>
+      <div class="info-item"><strong>Occupied:</strong> <%= students %> students</div>
+    </div>
+  </div>
+
+  <!-- Seating Chart -->
+  <div class="seating-chart-container">
+    <div class="chart-header">
+      <div class="blackboard">BLACKBOARD</div>
+    </div>
+
+    <div class="seating-grid" id="seatingGrid">
+      <% for (let row = 0; row < rows; row++) { %>
+        <% for (let col = 0; col < cols; col++) { %>
+          <% const student = seatingChart[row][col]; %>
+          <div class="seat <%= student ? 'occupied' : 'empty' %> <%= student ? 'dept-' + student.department.toLowerCase() : '' %>">
+            <% if (student) { %>
+              <div class="student-info">
+                <div class="roll-no"><%= student.roll_no %></div>
+                <div class="student-name"><%= student.name %></div>
+                <div class="department"><%= student.department %></div>
+              </div>
+            <% } else { %>
+              <div class="empty-seat">Empty</div>
+            <% } %>
+          </div>
+        <% } %>
+      <% } %>
+    </div>
+
+    <!-- Legend -->
+    <div class="legend">
+      <h4>Department Legend:</h4>
+      <div class="legend-items">
+        <div class="legend-item"><div class="legend-color dept-cse"></div><span>CSE</span></div>
+        <div class="legend-item"><div class="legend-color dept-ece"></div><span>ECE</span></div>
+        <div class="legend-item"><div class="legend-color dept-mech"></div><span>MECH</span></div>
+        <div class="legend-item"><div class="legend-color dept-civil"></div><span>CIVIL</span></div>
+        <div class="legend-item"><div class="legend-color dept-eee"></div><span>EEE</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Apply grid columns dynamically
+  document.addEventListener("DOMContentLoaded", () => {
+    const grid = document.getElementById("seatingGrid");
+    grid.style.gridTemplateColumns = `repeat(<%= cols %>, 1fr)`;
+  });
+
+  function printChart() {
+    window.print();
+  }
+</script>

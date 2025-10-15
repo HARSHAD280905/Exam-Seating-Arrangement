@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Seating System</title>
+    <link rel="stylesheet" href="/css/style.css">
+
+ 
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <i class="fas fa-chair"></i>
+                    <span>Exam Seating System</span>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="/" class="nav-link">Home</a></li>
+                    <% if (user) { %>
+                        <li><a href="/students" class="nav-link">Students</a></li>
+                        <li><a href="/classrooms" class="nav-link">Classrooms</a></li>
+                        <li><a href="/generate-seating" class="nav-link">Generate</a></li>
+                        <li><a href="/arrangements" class="nav-link">Arrangements</a></li>
+                        <!-- User Greeting -->
+                        <li class="nav-user">Hello, <%= user.name %></li>
+                        <li><a href="/logout" class="nav-link">Logout</a></li>
+                    <% } else { %>
+                        <li><a href="/login" class="nav-link">Login</a></li>
+                        <li><a href="/register" class="nav-link">Register</a></li>
+                    <% } %>
+                </ul>
+            </div>
+         </nav>
+
+
+    <main class="main-content">
+        <%- body %>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2024 Optimum Exam Seating Arrangement System</p>
+    </footer>
+
+    <script src="/js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Register - Exam Seating</title>
+    <link rel="stylesheet" href="/css/resister.css" />
+  </head>
+  <body>
+    <main class="main-content" style="max-width: 480px; margin: 2rem auto;">
+      <h1>Register</h1>
+      <% if (typeof error !== 'undefined' && error) { %>
+        <div class="alert alert-danger" style="color:#b91c1c; margin:.5rem 0;"><%= error %></div>
+      <% } %>
+      <form method="POST" action="/register" class="form" style="display:flex; flex-direction:column; gap: 12px;">
+        <label>
+          <span>Name</span>
+          <input type="text" name="name" required class="input" />
+        </label>
+        <label>
+          <span>Email</span>
+          <input type="email" name="email" required class="input" />
+        </label>
+        <label>
+          <span>Password</span>
+          <input type="password" name="password" required minlength="6" class="input" />
+        </label>
+        <button type="submit" class="btn">Create account</button>
+      </form>
+      <p style="margin-top:1rem;">Already have an account? <a href="/login">Login</a></p>
+    </main>
+  </body>
+</html>

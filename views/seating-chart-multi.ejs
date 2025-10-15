@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Seating Arrangement (Multiple)</title>
+  <style>
+    body { font-family: Arial; padding: 20px; background: #f9f9f9; }
+    .classroom { margin-bottom: 50px; border: 2px solid #333; padding: 10px; background: #fff; }
+    .blackboard { background-color: #333; color: white; text-align: center; font-weight: bold; padding: 10px; margin-bottom: 10px; }
+    table { border-collapse: collapse; width: 100%; }
+    td { border: 1px solid #aaa; padding: 10px; text-align: center; font-weight: bold; }
+    td.empty { color: #999; font-weight: normal; }
+
+  </style>
+</head>
+<body>
+  <h2>Seating Arrangements (Multiple Classrooms)</h2>
+
+  <% arrangements.forEach(({ classroom, seatingChart, students }) => { %>
+    <div class="classroom">
+
+       <div class="chart-header">
+          <div class="blackboard">BLACKBOARD</div>
+       </div>
+     
+      <h3><%= classroom.name %> (Total Students: <%= students %>, Capacity: <%= classroom.capacity %>)</h3>
+      <table>
+        <% seatingChart.forEach((row, rowIndex) => { %>
+          <tr>
+            <% row.forEach((seat, colIndex) => { %>
+              <% let benchNo = rowIndex * row.length + colIndex + 1; %>
+              <td class="<%= seat ? '' : 'empty' %>">
+                Bench <%= benchNo %><br>
+                <% if (seat) { %>
+                  <%= seat.roll_no %><br>(<%= seat.department %>)
+                <% } else { %>
+                  Empty
+                <% } %>
+              </td>
+            <% }) %>
+          </tr>
+        <% }) %>
+      </table>
+    </div>
+  <% }) %>
+  
+</body>
+</html>
